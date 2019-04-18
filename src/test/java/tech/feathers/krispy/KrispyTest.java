@@ -2,8 +2,6 @@ package tech.feathers.krispy;
 
 import static org.junit.Assert.*;
 
-import java.io.StringWriter;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 

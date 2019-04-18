@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 
 import org.apache.velocity.exception.MethodInvocationException;
 import tech.feathers.krispy.Krispy;
-import tech.feathers.krispy.exception.UnauthorizedException;
-import tech.feathers.krispy.exception.EvaluationException;
+import tech.feathers.krispy.exceptions.UnauthorizedException;
+import tech.feathers.krispy.exceptions.EvaluationException;
 
 import org.junit.BeforeClass;
 import org.junit.Before;

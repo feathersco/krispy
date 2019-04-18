@@ -1,4 +1,4 @@
-package tech.feathers.krispy.exception;
+package tech.feathers.krispy.exceptions;
 
 public class EvaluationException extends Exception {
     static final long serialVersionUID = 400L;

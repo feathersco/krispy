@@ -1,11 +1,19 @@
 package tech.feathers.krispy.util;
 
-import tech.feathers.krispy.exception.EvaluationException;
-import tech.feathers.krispy.exception.UnauthorizedException;
+import tech.feathers.krispy.exceptions.EvaluationException;
+import tech.feathers.krispy.exceptions.UnauthorizedException;
 
 import org.apache.commons.lang3.NotImplementedException; 
 
+/**
+ * Implementation of the AWS AppSync resolver mapping template utility methods.
+ */
 public class BaseUtilities {
+    /**
+     * Reference to dynamodb specific utilities.
+     */
+    public DynamoDBUtilities dynamodb = new DynamoDBUtilities();
+
     /**
      * Used as a wrapper to supress the return value of a method call from being outputed to the template. Functionally equivalent to `qiet`.
      * @param data Any value. Typically the result of a method call.
