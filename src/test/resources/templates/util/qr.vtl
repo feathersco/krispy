@@ -1,0 +1,10 @@
+## Suppress numbers
+$util.qr(1)
+
+## Suppress strings
+$util.qr("Uh oh...")
+
+## Suppress map.put operations
+#set( $test = {} )
+$util.qr($test.put("key", "some value"))
+$util.qr($test.put("test", "some other value"))
