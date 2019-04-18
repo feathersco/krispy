@@ -9,12 +9,18 @@ import org.apache.velocity.app.Velocity;
 import tech.feathers.krispy.util.BaseUtilities;
 
 public class Krispy {
-    private static BaseUtilities baseUtilities;
+    private BaseUtilities baseUtilities;
 
     public static void init() {
         Velocity.init();
+    }
 
-        baseUtilities = new BaseUtilities();
+    public Krispy() {
+        this(new BaseUtilities());
+    }
+
+    public Krispy(BaseUtilities baseUtilities) {
+        this.baseUtilities = baseUtilities;
     }
 
     /**
@@ -36,5 +42,6 @@ public class Krispy {
 
     private void setupContext(VelocityContext context) {
         context.put("util", baseUtilities);
+        context.put("utils", baseUtilities);
     }
 }

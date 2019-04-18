@@ -9,10 +9,27 @@ import org.apache.commons.lang3.NotImplementedException;
  * Implementation of the AWS AppSync resolver mapping template utility methods.
  */
 public class BaseUtilities {
+    private TimeUtilities time;
+    private DynamoDBUtilities dynamodb;
+
+    public BaseUtilities() {
+        this(new TimeUtilities(), new DynamoDBUtilities());
+    }
+
+    public BaseUtilities(TimeUtilities time, DynamoDBUtilities dynamodb) {
+        this.time = time;
+        this.dynamodb = dynamodb;
+    }
+
     /**
-     * Reference to dynamodb specific utilities.
+     * @return time utility functions.
      */
-    public DynamoDBUtilities dynamodb = new DynamoDBUtilities();
+    public TimeUtilities getTime() { return time; }
+
+    /**
+     * @return dynamodb utility functions.
+     */
+    public DynamoDBUtilities getDynamodb() { return dynamodb; }
 
     /**
      * Used as a wrapper to supress the return value of a method call from being outputed to the template. Functionally equivalent to `qiet`.
