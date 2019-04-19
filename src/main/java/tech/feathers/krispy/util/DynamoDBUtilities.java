@@ -1,66 +1,133 @@
 package tech.feathers.krispy.util;
 
+import tech.feathers.krispy.marshall.AVJsonMarshaller;
+import tech.feathers.krispy.marshall.AVMarshaller;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.List;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import org.apache.commons.lang3.NotImplementedException;
+
 
 /**
  * Implementation of the AWS AppSync resolver mapping template utility methods for DynamoDB related functionality.
  */
 public class DynamoDBUtilities {
-    public Map<String, Object> toDynamoDB(Object o) { throw new NotImplementedException("Not yet implemented."); }
+    private AVMarshaller avMarshaller;
+    private AVJsonMarshaller avJsonMarshaller;
 
-    public String toDynamoDBJson(Object o) { throw new NotImplementedException("Not yet implemented."); }
+    public DynamoDBUtilities() {
+        this(new AVMarshaller(), new AVJsonMarshaller());
+    }
 
-    public String toString(String s) { throw new NotImplementedException("Not yet implemented."); }
+    public DynamoDBUtilities(AVMarshaller avMarshaller, AVJsonMarshaller avJsonMarshaller) {
+        this.avMarshaller = avMarshaller;
+        this.avJsonMarshaller = avJsonMarshaller;
+    }
 
-    public Map<String, Object> toStringJson(String s) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toDynamoDB(Object o) {
+        return avMarshaller.marshall(o);
+    }
 
-    public Map<String, Object> toStringSet(List<String> list) { throw new NotImplementedException("Not yet implemented."); }
+    public String toDynamoDBJson(Object o) { 
+        return avJsonMarshaller.marshall(toDynamoDB(o));
+    }
 
-    public String toStringSetJson(List<String> list) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toString(String s) {
+        return avMarshaller.marshall(s);
+    }
 
-    public Map<String, Object> toNumber(int n) { throw new NotImplementedException("Not yet implemented."); }
+    public String toStringJson(String s) {
+        return avJsonMarshaller.marshall(toString(s));
+    }
 
-    public Map<String, Object> toNumber(double n) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toStringSet(List<String> strSet) { 
+        return avMarshaller.marshall(strSet);
+    }
 
-    public String toNumberJson(int n) { throw new NotImplementedException("Not yet implemented."); }
+    public String toStringSetJson(List<String> strSet) {
+        return avJsonMarshaller.marshall(toStringSet(strSet));
+    }
 
-    public String toNumberJson(double n) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toNumber(Number n) {
+        return avMarshaller.marshall(n);
+    }
 
-    public Map<String, Object> toNumberSet(List<Number> list) { throw new NotImplementedException("Not yet implemented."); }
+    public String toNumberJson(Number n) {
+        return avJsonMarshaller.marshall(toNumber(n));
+    }
+
+    public AttributeValue toNumberSet(List<Number> list) { throw new NotImplementedException("Not yet implemented."); }
 
     public String toNumberSetJson(List<Number> list) { throw new NotImplementedException("Not yet implemented."); }
 
-    public Map<String, Object> toBinary(String s) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toBinary(String s) { throw new NotImplementedException("Not yet implemented."); }
 
     public String toBinaryJson(String s) { throw new NotImplementedException("Not yet implemented."); }
 
-    public Map<String, Object> toBinarySet(List<String> list) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toBinarySet(List<String> list) { throw new NotImplementedException("Not yet implemented."); }
 
     public String toBinarySetJson(List<String> list) { throw new NotImplementedException("Not yet implemented."); }
 
-    public Map<String, Object> toBoolean(boolean b) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toBoolean(Boolean b) {
+        return avMarshaller.marshall(b);
+    }
 
-    public String toBooleanJson(boolean b) { throw new NotImplementedException("Not yet implemented."); }
+    public String toBooleanJson(Boolean b) {
+        return avJsonMarshaller.marshall(toBoolean(b));
+    }
 
-    public Map<String, Object> toNull() { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toNull() {
+        return avMarshaller.marshall(null);
+    }
 
-    public String toNullJson() { throw new NotImplementedException("Not yet implemented."); }
+    public String toNullJson() {
+        return avJsonMarshaller.marshall(toNull());
+    }
 
-    public Map<String, Object> toList(List<Object> list) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toList(List<Object> list) {
+        return avMarshaller.marshall(list);
+    }
 
-    public String toListJson(List<Object> list) { throw new NotImplementedException("Not yet implemented."); }
+    public String toListJson(List<Object> list) {
+        return avJsonMarshaller.marshall(toList(list));
+    }
 
-    public Map<String, Object> toMap(Map<String, Object> map) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toMap(Map<String, Object> map) {
+        return avMarshaller.marshall(map);
+    }
 
-    public String toMapJson(Map<String, Object> map) { throw new NotImplementedException("Not yet implemented."); }
+    public String toMapJson(Map<String, Object> map) {
+        return avJsonMarshaller.marshall(toMap(map));
+    }
 
-    public Map<String, Object> toMapValues(Map<String, Object> map) { throw new NotImplementedException("Not yet implemented."); }
+    public Map<String, AttributeValue> toMapValues(Map<String, Object> map) {
+        return avMarshaller.marshall(map).getM();
+    }
 
-    public String toMapValuesJson(Map<String, Object> map) { throw new NotImplementedException("Not yet implemented."); }
+    public String toMapValuesJson(Map<String, Object> map) {
+        String result = "{";
+        Set<Entry<String, AttributeValue>> entrySet = toMapValues(map).entrySet();
+        boolean first = true;
+        for (Entry<String, AttributeValue> entry : entrySet) {
+            if (first) {
+                first = false;
+            } else {
+                result += ", ";
+            }
+            result += "\"" + entry.getKey() + "\": " + avMarshaller.marshall(entry.getValue());
+            
+        }
+        result += "}";
+        return result;
+    }
 
-    public Map<String, Object> toS3Object(String key, String bucket, String region) { throw new NotImplementedException("Not yet implemented."); }
+    public AttributeValue toS3Object(String key, String bucket, String region) { throw new NotImplementedException("Not yet implemented."); }
+
+    public String toS3ObjectJson(String key, String bucket, String region) { throw new NotImplementedException("Not yet implemented."); }
+
+    public AttributeValue toS3Object(String key, String bucket, String region, String version) { throw new NotImplementedException("Not yet implemented."); }
 
     public String toS3ObjectJson(String key, String bucket, String region, String version) { throw new NotImplementedException("Not yet implemented."); }
 
