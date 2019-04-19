@@ -13,7 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit test for simple App.
+ * Unit tests for utility functions.
+ * 
+ * TODO: Should rewrite the tests to be tested without running it through Krispy.
  */
 public class BaseUtilitiesTest {
     private Krispy krispy;

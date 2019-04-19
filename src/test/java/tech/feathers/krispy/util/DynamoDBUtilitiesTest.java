@@ -8,6 +8,11 @@ import org.junit.BeforeClass;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Unit tests for dynamodb utility functions.
+ * 
+ * TODO: Should rewrite the tests to be tested without running it through Krispy.
+ */
 public class DynamoDBUtilitiesTest {
     private Krispy krispy;
 

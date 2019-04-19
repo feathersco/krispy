@@ -12,6 +12,11 @@ import org.junit.BeforeClass;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Unit tests for time utility functions.
+ * 
+ * TODO: Should rewrite the tests to be tested without running it through Krispy.
+ */
 public class TimeUtilitiesTest {
     private static final long TEST_FIXED_TIME = 1234567890L;
 
