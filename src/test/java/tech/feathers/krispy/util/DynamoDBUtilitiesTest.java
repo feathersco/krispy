@@ -22,7 +22,7 @@ public class DynamoDBUtilitiesTest {
     }
 
     @Test
-    public void toDynamoDBJson_someValue_serializeProperly() {
-        assertEquals("{\"M\": {\"foo\": \"this is a string\", \"bar\", 23, \"qux\": true, \"quux\": {\"L\": [{\"S\": \"a\"}, {\"N\": 2}]}, \"corge\": {\"M\": {}}}}", krispy.render("src/test/resources/templates/util/dynamodb/test.vtl").trim());
+    public void toDynamoDBJson_string_serializeProperly() {
+        assertEquals("{\"S\": \"test\"}", krispy.render("src/test/resources/templates/util/dynamodb/toStringJson.vtl").trim());
     }
 }
