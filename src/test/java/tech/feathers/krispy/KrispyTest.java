@@ -5,18 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- * Unit test for simple App.
- */
 public class KrispyTest {
     @BeforeClass
     public static void beforeClass() {
         Krispy.init();
     }
 
-    /**
-     * Rigorous Test :-)
-     */
     @Test
     public void render_basicTemplate() {
         Krispy k = new Krispy();

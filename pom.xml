@@ -6,7 +6,7 @@
 
   <groupId>tech.feathers.krispy</groupId>
   <artifactId>krispy</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 
   <name>krispy</name>
   <url>https://feathers.tech</url>
