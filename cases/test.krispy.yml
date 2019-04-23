@@ -1,0 +1,4 @@
+description: Basic test of Krispy
+warnOnAdd: true
+cognitoIdentityId: "dev-console:AKIA3JASDFJSADJ"
+templateFile: "sample.vtl"

@@ -1,0 +1,10 @@
+## Suppress numbers
+$util.qiet(1)
+
+## Suppress strings
+$util.qiet("Uh oh...")
+
+## Suppress map.put operations
+#set( $test = {} )
+$util.qiet($test.put("key", "some value"))
+$util.qiet($test.put("test", "some other value"))
