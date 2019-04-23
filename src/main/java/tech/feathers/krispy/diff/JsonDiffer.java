@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -14,10 +15,18 @@ import org.json.simple.parser.ParseException;
 public class JsonDiffer {
     public List<JsonDiff> diff(Reader origFile, Reader newFile) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
-        JSONObject origDoc = (JSONObject) parser.parse(origFile);
-        JSONObject newDoc = (JSONObject) parser.parse(newFile);
+        Object origDoc = parser.parse(origFile);
+        Object newDoc = parser.parse(newFile);
 
-        return diff("", origDoc, newDoc);
+        if (origDoc == newDoc || (origDoc != null && origDoc.equals(newDoc))) {
+            return new ArrayList<JsonDiff>();
+        } else if (!(origDoc instanceof JSONObject) || !(newDoc instanceof JSONObject)) {
+            List<JsonDiff> results = new ArrayList<JsonDiff>();
+            results.add(new ModifiedDiff("", origDoc, newDoc));
+            return results;
+        }
+
+        return diff("", (JSONObject) origDoc, (JSONObject) newDoc);
     }
 
     private List<JsonDiff> diff(String basePath, JSONObject origDoc, JSONObject newDoc) {

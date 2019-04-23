@@ -36,5 +36,4 @@ templateFile: "path/to/template.vtl"
 * `$util.xml` utility functions are not yet implemented.
 * `$util.transform` utility functions are not yet implemented.
 * So far only exposes `cognitoIdentityId` to be stubbed in the identity context.
-* `JsonDiffer` does not do deep diff of arrays.
-* `JsonDiffer` does not work if root of the output is not a map.
+* `JsonDiffer` does not do deep diff of arrays/lists.
