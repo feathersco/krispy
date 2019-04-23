@@ -3,12 +3,20 @@ package tech.feathers.krispy.diff;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class JsonDiffer {
-    public List<JsonDiff> diff(JSONObject origDoc, JSONObject newDoc) {
+    public List<JsonDiff> diff(Reader origFile, Reader newFile) throws IOException, ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject origDoc = (JSONObject) parser.parse(origFile);
+        JSONObject newDoc = (JSONObject) parser.parse(newFile);
+
         return diff("", origDoc, newDoc);
     }
 

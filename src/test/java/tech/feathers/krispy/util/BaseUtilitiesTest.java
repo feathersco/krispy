@@ -32,31 +32,43 @@ public class BaseUtilitiesTest {
 
     @Test
     public void qr_allInputs_suppressesOutput() {
-        assertEquals("", krispy.render("src/test/resources/templates/util/qr.vtl").trim());
+        try {
+            assertEquals("", krispy.renderToString("src/test/resources/templates/util/qr.vtl").trim());
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
     public void qiet_allInputs_suppressesOutput() {
-        assertEquals("", krispy.render("src/test/resources/templates/util/qiet.vtl").trim());
+        try {
+            assertEquals("", krispy.renderToString("src/test/resources/templates/util/qiet.vtl").trim());
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
     public void unauthorized_called_throws() {
         try {
-            krispy.render("src/test/resources/templates/util/unauthorized.vtl");
+            krispy.renderToString("src/test/resources/templates/util/unauthorized.vtl");
         } catch (MethodInvocationException ex) {
             Throwable innerEx = ex.getCause();
             assertThat(innerEx, instanceOf(UnauthorizedException.class));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
         }
     }
 
     @Test
     public void error_called_throws() {
         try {
-            krispy.render("src/test/resources/templates/util/error.vtl");
+            krispy.renderToString("src/test/resources/templates/util/error.vtl");
         } catch (MethodInvocationException ex) {
             Throwable innerEx = ex.getCause();
             assertThat(innerEx, instanceOf(EvaluationException.class));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
         }
     }
 }

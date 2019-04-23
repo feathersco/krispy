@@ -3,7 +3,13 @@ package tech.feathers.krispy.util;
 import tech.feathers.krispy.exceptions.EvaluationException;
 import tech.feathers.krispy.exceptions.UnauthorizedException;
 
-import org.apache.commons.lang3.NotImplementedException; 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Implementation of the AWS AppSync resolver mapping template utility methods.
@@ -55,7 +61,67 @@ public class BaseUtilities {
 
     public Object parseJson(String jsonStr) { throw new NotImplementedException("Not yet implemented."); }
 
-    public String toJson(Object o) { throw new NotImplementedException("Not yet implemented."); }
+    public String toJson(Object o) {
+        if (o == null) {
+            return "null";
+        } else if (o instanceof Number || o instanceof Boolean) {
+            return o.toString();
+        } else if (o instanceof String) {
+            return "\"" + o.toString() + "\"";
+        } else if (o instanceof List) {
+            @SuppressWarnings("unchecked")
+            JSONArray arr = populateArr((List<Object>) o);
+            return arr.toJSONString();
+        } else if (o instanceof Map) {
+            @SuppressWarnings("unchecked")
+            JSONObject obj = populateObj((Map<String, Object>) o);
+            return obj.toJSONString();
+        } else {
+            throw new NotImplementedException("Not yet implemented.");
+        }
+    }
+
+    public JSONObject populateObj(Map<String, Object> map) {
+        JSONObject obj = new JSONObject();
+        for (Entry<String, Object> entry: map.entrySet()) {
+            String k = entry.getKey();
+            Object o = entry.getValue();
+            if (o instanceof Number || o instanceof Boolean || o instanceof String) {
+                obj.put(k, o);
+            } else if (o instanceof List) {
+                @SuppressWarnings("unchecked")
+                JSONArray innerArr = populateArr((List<Object>) o);
+                obj.put(k, innerArr);
+            } else if (o instanceof Map) {
+                @SuppressWarnings("unchecked")
+                JSONObject innerObj = populateObj((Map<String, Object>) o);
+                obj.put(k, innerObj);
+            } else {
+                throw new NotImplementedException("Unsupported type.");
+            }
+        }
+        return obj;
+    }
+
+    public JSONArray populateArr(List<Object> list) {
+        JSONArray arr = new JSONArray();
+        for (Object o: list) {
+            if (o instanceof Number || o instanceof Boolean || o instanceof String) {
+                arr.add(o);
+            } else if (o instanceof List) {
+                @SuppressWarnings("unchecked")
+                JSONArray innerArr = populateArr((List<Object>) o);
+                arr.add(innerArr);
+            } else if (o instanceof Map) {
+                @SuppressWarnings("unchecked")
+                JSONObject innerObj = populateObj((Map<String, Object>) o);
+                arr.add(innerObj);
+            } else {
+                throw new NotImplementedException("Unsupported type.");
+            }
+        }
+        return arr;
+    }
 
     public String autoId() { throw new NotImplementedException("Not yet implemented."); }
 

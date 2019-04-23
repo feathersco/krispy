@@ -14,6 +14,10 @@ public class KrispyTest {
     @Test
     public void render_basicTemplate() {
         Krispy k = new Krispy();
-        assertEquals("Hello, World!", k.render("src/test/resources/templates/example.vtl"));
+        try {
+            assertEquals("Hello, World!", k.renderToString("src/test/resources/templates/example.vtl"));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 }

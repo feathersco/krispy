@@ -43,31 +43,51 @@ public class TimeUtilitiesTest {
     public void nowISO8601_called_fixedTime() {
         SimpleDateFormat sdf = new SimpleDateFormat(TimeUtilities.ISO8601_FORMAT);
         String timestamp = sdf.format(new Date(TEST_FIXED_TIME));
-        assertEquals(timestamp, krispy.render("src/test/resources/templates/util/time/nowISO8601.vtl"));
+        try {
+            assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/nowISO8601.vtl"));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
     public void nowEpochMillisSeconds_called_fixedTime() {
-        assertEquals(TEST_FIXED_TIME + "", krispy.render("src/test/resources/templates/util/time/nowEpochMilliSeconds.vtl"));
+        try {
+            assertEquals(TEST_FIXED_TIME + "", krispy.renderToString("src/test/resources/templates/util/time/nowEpochMilliSeconds.vtl"));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
     public void nowEpochSeconds_called_fixedTime() {
-        assertEquals((TEST_FIXED_TIME / 1000) + "", krispy.render("src/test/resources/templates/util/time/nowEpochSeconds.vtl"));
+        try {
+            assertEquals((TEST_FIXED_TIME / 1000) + "", krispy.renderToString("src/test/resources/templates/util/time/nowEpochSeconds.vtl"));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
     public void nowFormatted_called_fixedTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String timestamp = sdf.format(new Date(TEST_FIXED_TIME));
-        assertEquals(timestamp, krispy.render("src/test/resources/templates/util/time/nowFormatted.vtl"));
+        try {
+            assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/nowFormatted.vtl"));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
     public void epochMilliSecondsToFormatted_called_fixedTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String timestamp = sdf.format(new Date(TEST_FIXED_TIME));
-        assertEquals(timestamp, krispy.render("src/test/resources/templates/util/time/epochMilliSecondsToFormatted.vtl"));
+        try {
+            assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/epochMilliSecondsToFormatted.vtl"));
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     /**

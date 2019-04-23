@@ -2,61 +2,56 @@ package tech.feathers.krispy.diff;
 
 import static org.junit.Assert.*;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.List;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Unit test for simple App.
  */
 public class JsonDifferTest {
-    private JSONParser parser;
-
-    @Before
-    public void before() {
-        parser = new JSONParser();
-    }
 
     @Test
     public void diff_identical_noDiffs() {
+        Reader a = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }, \"b\": { \"e\": \"kinda\" }, \"c\": { \"f\": \"sorta\" }}");
+        Reader b = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }, \"b\": { \"e\": \"kinda\" }, \"c\": { \"f\": \"sorta\" }}");
+        JsonDiffer differ = new JsonDiffer();
         try {
-            JSONObject a = (JSONObject) parser.parse("{\"a\": { \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }, \"b\": { \"e\": \"kinda\" }, \"c\": { \"f\": \"sorta\" }}");
-            JSONObject b = (JSONObject) parser.parse("{\"a\": { \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }, \"b\": { \"e\": \"kinda\" }, \"c\": { \"f\": \"sorta\" }}");
-            JsonDiffer differ = new JsonDiffer();
             List<JsonDiff> diffs = differ.diff(a, b);
+            assertNotNull(diffs);
             assertEquals(0, diffs.size());
-        } catch (ParseException pe) {
-            fail("Invalid JSON");
+        } catch (Exception e) {
+            fail(e.toString());
         }
     }
 
     @Test
     public void diff_oneModifiedOneRename_threeDiffs() {
+        Reader a = new StringReader("{ \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }");
+        Reader b = new StringReader("{ \"a\": \"foo\", \"b\": \"qux\", \"d\": \"quux\" }");
+        JsonDiffer differ = new JsonDiffer();
         try {
-            JSONObject a = (JSONObject) parser.parse("{ \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }");
-            JSONObject b = (JSONObject) parser.parse("{ \"a\": \"foo\", \"b\": \"qux\", \"d\": \"quux\" }");
-            JsonDiffer differ = new JsonDiffer();
             List<JsonDiff> diffs = differ.diff(a, b);
+            assertNotNull(diffs);
             assertEquals(3, diffs.size());
-        } catch (ParseException pe) {
-            fail("Invalid JSON");
+        } catch (Exception e) {
+            fail(e.toString());
         }
     }
 
     @Test
     public void diff_nestedModify_oneDiff() {
+        Reader a = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"bar\"}}");
+        Reader b = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"qux\"}}");
+        JsonDiffer differ = new JsonDiffer();
         try {
-            JSONObject a = (JSONObject) parser.parse("{\"a\": { \"a\": \"foo\", \"b\": \"bar\"}}");
-            JSONObject b = (JSONObject) parser.parse("{\"a\": { \"a\": \"foo\", \"b\": \"qux\"}}");
-            JsonDiffer differ = new JsonDiffer();
             List<JsonDiff> diffs = differ.diff(a, b);
+            assertNotNull(diffs);
             assertEquals(1, diffs.size());
-        } catch (ParseException pe) {
-            fail("Invalid JSON");
+        } catch (Exception e) {
+            fail(e.toString());
         }
     }
 }

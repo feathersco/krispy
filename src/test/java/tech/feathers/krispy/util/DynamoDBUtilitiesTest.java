@@ -28,6 +28,10 @@ public class DynamoDBUtilitiesTest {
 
     @Test
     public void toDynamoDBJson_string_serializeProperly() {
-        assertEquals("{\"S\": \"test\"}", krispy.render("src/test/resources/templates/util/dynamodb/toStringJson.vtl").trim());
+        try {
+            assertEquals("{\"S\": \"test\"}", krispy.renderToString("src/test/resources/templates/util/dynamodb/toStringJson.vtl").trim());
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 }

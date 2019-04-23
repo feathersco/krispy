@@ -1,6 +1,10 @@
 package tech.feathers.krispy;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
@@ -24,12 +28,26 @@ public class Krispy {
         this.baseUtilities = baseUtilities;
     }
 
+    public String renderToString(String templatePath) throws IOException {
+        return renderToString(templatePath, new AppSyncContext());
+    }
+
+    public String renderToString(String templatePath, AppSyncContext context) throws IOException {
+        BufferedReader r = new BufferedReader(render(templatePath, context));
+        String result = "";
+        String line;
+        while ((line = r.readLine()) != null) {
+            result += line;
+        }
+        return result;
+    }
+    
     /**
      * Renders the VTL file at the given path.
      * @param templatePath  Location of the VTL file to render.
      * @return Output of the evaluated VTL.
      */
-    public String render(String templatePath) {
+    public Reader render(String templatePath) throws IOException {
         return render(templatePath, new AppSyncContext());
     }
 
@@ -39,15 +57,16 @@ public class Krispy {
      * @param context       AppSync context object to use.
      * @return Output of the evaluated VTL.
      */
-    public String render(String templatePath, AppSyncContext context) {
-        StringWriter sw = new StringWriter();
+    public Reader render(String templatePath, AppSyncContext context) throws IOException {
+        StringWriter writer = new StringWriter();
+
         VelocityContext vc = createVelocityContext(context);
 
         Template template = Velocity.getTemplate(templatePath);
 
-        template.merge(vc, sw);
+        template.merge(vc, writer);
 
-        return sw.toString();
+        return new StringReader(writer.toString());
     }
 
     private VelocityContext createVelocityContext(AppSyncContext context) {
