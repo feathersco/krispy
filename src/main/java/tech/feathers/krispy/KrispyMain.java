@@ -29,16 +29,14 @@ import org.apache.commons.cli.ParseException;
 import tech.feathers.krispy.context.AppSyncContext;
 import tech.feathers.krispy.context.AppSyncContextArgs;
 import tech.feathers.krispy.context.AppSyncContextIdentity;
+import tech.feathers.krispy.context.AppSyncContextPrev;
+import tech.feathers.krispy.context.AppSyncContextResult;
 import tech.feathers.krispy.diff.AddedDiff;
 import tech.feathers.krispy.diff.JsonDiff;
 import tech.feathers.krispy.diff.JsonDiffer;
 
 public class KrispyMain {
 
-    // TODO: Implement render and compare
-    // TODO: Create test file format
-    // TODO: Implement snapshotting
-    // TODO: Implement interactive mode
     public static void main(String[] args) throws Exception {
         HelpFormatter formatter = new HelpFormatter();
         CommandLineParser parser = new DefaultParser();
@@ -98,7 +96,9 @@ public class KrispyMain {
 
                 AppSyncContext context = new AppSyncContext(
                     new AppSyncContextIdentity(testCase.getCognitoIdentityId()), 
-                    new AppSyncContextArgs(testCase.getArgs())
+                    new AppSyncContextArgs(testCase.getArgs()),
+                    new AppSyncContextResult(testCase.getResult()),
+                    new AppSyncContextPrev(new AppSyncContextResult(testCase.getPrevResult()))
                 );
 
                 File template = templateRoot.resolve(testCase.getTemplateFile()).toFile();
