@@ -88,10 +88,10 @@ public class KrispyMain {
         for (File file: files) {
             try {
                 KrispyCase testCase = mapper.readValue(file, KrispyCase.class);
-                String title = testCase.getTemplateFile() + (testCase.getDescription() != null ? ": " + testCase.getDescription() : "");
+                String title = "CASE : " + testCase.getTemplateFile() + (testCase.getDescription() != null ? " - " + testCase.getDescription() : "");
                 System.out.println(title);
                 if (testCase.getTemplateFile() == null) {
-                    System.out.println("\tFAILED: No template file was specified.");
+                    System.out.println("\t[FAILED] No template file was specified.");
                     failed++;
                     continue;
                 }
@@ -103,7 +103,7 @@ public class KrispyMain {
 
                 File template = templateRoot.resolve(testCase.getTemplateFile()).toFile();
                 if (!template.exists()) {
-                    System.err.println("\tFAILED: Template file could not be found.");
+                    System.err.println("\t[FAILED] Template file could not be found.");
                     failed++;
                     continue;
                 }
@@ -114,7 +114,7 @@ public class KrispyMain {
                     Reader expected = new FileReader(snapshot);
                     List<JsonDiff> diffs = differ.diff(expected, actual);
                     if (diffs.size() == 0) {
-                        System.out.println("\tPASSED!");
+                        System.out.println("\t[PASSED]");
                         passed++;
                         continue;
                     }
@@ -128,20 +128,21 @@ public class KrispyMain {
                     }
 
                     if (!hasNonAdds && testCase.getWarnOnAdd()) {
-                        System.out.println("\tWARNING: Diffs were detected, but changes were strictly additive.");
+                        System.out.println("\t[WARNING] Diffs were detected, but changes were strictly additive.");
                         warning++;
                         continue;
                     } else if (cl.hasOption("u")) {
                         System.out.println("\tDiffs were detected, but --update-snapshots is set.");
                     } else {
-                        System.out.println("\tFAILED: Diffs were detected.");
+                        System.out.println("\t[FAILED] Diffs were detected.");
                         failed++;
                         continue;
                     }
                 } else if (cl.hasOption("u")) {
                     System.out.println("\tNo existing snapshot found, but --update-snapshots is set.");
+                    Files.createDirectories(Paths.get(snapshot.getParent()));
                 } else {
-                    System.out.println("\tFAILED: No snapshot found!");
+                    System.out.println("\t[FAILED] No snapshot found!");
                     failed++;
                     continue;
                 }
@@ -158,7 +159,7 @@ public class KrispyMain {
                     bw.close();
 
                     updated++;
-                    System.out.println("\tUPDATED: snapshot has been updated");
+                    System.out.println("\t[UPDATED] snapshot has been updated");
                 }
             } catch (JsonParseException jpe) {
                 System.err.println(file.getAbsolutePath() + " could not be parsed as YAML.");

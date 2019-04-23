@@ -36,7 +36,7 @@ public class JsonDiffer {
             Object a = origDoc == null ? null : origDoc.get(key);
             Object b = newDoc == null ? null : newDoc.get(key);
             if (origDoc.containsKey(key) && newDoc.containsKey(key)) {
-                if (a == b || a.equals(b)) {
+                if (a == b || (a != null && a.equals(b))) {
                     continue;
                 } else if (a instanceof JSONObject && b instanceof JSONObject) {
                     List<JsonDiff> childDiffs = diff(path + ".", (JSONObject) a, (JSONObject) b);
