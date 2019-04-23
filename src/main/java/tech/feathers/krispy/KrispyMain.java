@@ -86,7 +86,7 @@ public class KrispyMain {
         for (File file: files) {
             try {
                 KrispyCase testCase = mapper.readValue(file, KrispyCase.class);
-                String title = "CASE : " + (testCase.getDescription() != null ? testCase.getDescription() : file.getAbsolutePath());
+                String title = "CASE : " + file.getPath() + (testCase.getDescription() != null ? " - " + testCase.getDescription() : "");
                 System.out.println(title);
                 if (testCase.getTemplateFile() == null) {
                     System.out.println("\t[FAILED] No template file was specified.");
@@ -109,7 +109,7 @@ public class KrispyMain {
                 }
                 Reader actual = krispy.render(template.getPath(), context);
 
-                File snapshot = snapshotRoot.resolve(testCase.getTemplateFile() + ".snapshot").toFile();
+                File snapshot = snapshotRoot.resolve(template.getName() + "." + file.getName() + ".snapshot").toFile();
                 if (snapshot.exists()) {
                     Reader expected = new FileReader(snapshot);
                     List<JsonDiff> diffs = differ.diff(expected, actual);
