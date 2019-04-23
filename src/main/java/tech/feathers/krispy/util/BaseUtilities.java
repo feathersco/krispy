@@ -3,6 +3,7 @@ package tech.feathers.krispy.util;
 import tech.feathers.krispy.exceptions.EvaluationException;
 import tech.feathers.krispy.exceptions.UnauthorizedException;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,18 +71,22 @@ public class BaseUtilities {
             return "\"" + o.toString() + "\"";
         } else if (o instanceof List) {
             @SuppressWarnings("unchecked")
-            JSONArray arr = populateArr((List<Object>) o);
+            JSONArray arr = populateList((List<Object>) o);
             return arr.toJSONString();
         } else if (o instanceof Map) {
             @SuppressWarnings("unchecked")
-            JSONObject obj = populateObj((Map<String, Object>) o);
+            JSONObject obj = populateMap((Map<String, Object>) o);
             return obj.toJSONString();
         } else {
-            throw new NotImplementedException("Not yet implemented.");
+            JSONObject obj = populateObj(o);
+            return obj.toJSONString();
         }
     }
 
-    public JSONObject populateObj(Map<String, Object> map) {
+    public JSONObject populateMap(Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
         JSONObject obj = new JSONObject();
         for (Entry<String, Object> entry: map.entrySet()) {
             String k = entry.getKey();
@@ -90,37 +95,72 @@ public class BaseUtilities {
                 obj.put(k, o);
             } else if (o instanceof List) {
                 @SuppressWarnings("unchecked")
-                JSONArray innerArr = populateArr((List<Object>) o);
+                JSONArray innerArr = populateList((List<Object>) o);
                 obj.put(k, innerArr);
             } else if (o instanceof Map) {
                 @SuppressWarnings("unchecked")
-                JSONObject innerObj = populateObj((Map<String, Object>) o);
+                JSONObject innerObj = populateMap((Map<String, Object>) o);
                 obj.put(k, innerObj);
             } else {
-                throw new NotImplementedException("Unsupported type.");
+                JSONObject innerObj = populateObj(o);
+                obj.put(k, innerObj);
             }
         }
         return obj;
     }
 
-    public JSONArray populateArr(List<Object> list) {
+    public JSONArray populateList(List<Object> list) {
+        if (list == null) {
+            return null;
+        }
         JSONArray arr = new JSONArray();
         for (Object o: list) {
             if (o instanceof Number || o instanceof Boolean || o instanceof String) {
                 arr.add(o);
             } else if (o instanceof List) {
                 @SuppressWarnings("unchecked")
-                JSONArray innerArr = populateArr((List<Object>) o);
+                JSONArray innerArr = populateList((List<Object>) o);
                 arr.add(innerArr);
             } else if (o instanceof Map) {
                 @SuppressWarnings("unchecked")
-                JSONObject innerObj = populateObj((Map<String, Object>) o);
+                JSONObject innerObj = populateMap((Map<String, Object>) o);
                 arr.add(innerObj);
             } else {
-                throw new NotImplementedException("Unsupported type.");
+                JSONObject innerObj = populateObj(o);
+                arr.add(innerObj);
             }
         }
         return arr;
+    }
+
+    public JSONObject populateObj(Object payload) {
+        if (payload == null) {
+            return null;
+        }
+        JSONObject obj = new JSONObject();
+        Field[] fields = payload.getClass().getDeclaredFields();
+        for (Field field: fields) {
+            String k = field.getName();
+            Object o = null;
+            try {
+                o = field.get(payload);
+            } catch (IllegalAccessException iae) {}
+            if (o instanceof Number || o instanceof Boolean || o instanceof String) {
+                obj.put(k, o);
+            } else if (o instanceof List) {
+                @SuppressWarnings("unchecked")
+                JSONArray innerArr = populateList((List<Object>) o);
+                obj.put(k, innerArr);
+            } else if (o instanceof Map) {
+                @SuppressWarnings("unchecked")
+                JSONObject innerObj = populateMap((Map<String, Object>) o);
+                obj.put(k, innerObj);
+            } else {
+                JSONObject innerObj = populateObj(o);
+                obj.put(k, innerObj);
+            }
+        }
+        return obj;
     }
 
     public String autoId() { throw new NotImplementedException("Not yet implemented."); }
