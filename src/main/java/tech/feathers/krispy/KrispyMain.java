@@ -88,7 +88,8 @@ public class KrispyMain {
         for (File file: files) {
             try {
                 KrispyCase testCase = mapper.readValue(file, KrispyCase.class);
-                System.out.println("Test case: " + testCase.getTemplateFile());
+                String title = testCase.getTemplateFile() + (testCase.getDescription() != null ? ": " + testCase.getDescription() : "");
+                System.out.println(title);
                 if (testCase.getTemplateFile() == null) {
                     System.out.println("\tFAILED: No template file was specified.");
                     failed++;

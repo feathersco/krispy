@@ -10,6 +10,19 @@ Krispy also provides utilities to help compare rendered JSON output.
 
 Krispy can be used as an executable JAR file, or be used directly in your Java code.
 
+## Krispy Test Case Files
+
+```yaml
+# Example test case file
+description: Some description
+warnOnAdd: true  # When set to true, strictly additive changes will result in a warning
+cognitoIdentityId: "some-test-id"
+args:
+    someArg: 1
+    otherArg: "foo"
+templateFile: "path/to/template.vtl"
+```
+
 ## Limitations
 
 * Can only support rendering one template (no chaining).
