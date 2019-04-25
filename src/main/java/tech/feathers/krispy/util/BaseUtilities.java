@@ -23,6 +23,10 @@ public class BaseUtilities {
         this(new TimeUtilities(), new DynamoDBUtilities());
     }
 
+    public BaseUtilities(TimeUtilities time) {
+        this(time, new DynamoDBUtilities());
+    }
+
     public BaseUtilities(TimeUtilities time, DynamoDBUtilities dynamodb) {
         this.time = time;
         this.dynamodb = dynamodb;

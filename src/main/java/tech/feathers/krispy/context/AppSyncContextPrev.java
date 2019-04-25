@@ -1,19 +1,21 @@
 package tech.feathers.krispy.context;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AppSyncContextPrev {
-    private AppSyncContextResult result;
+    private Map<String, Object> prevMap;
 
     public AppSyncContextPrev() {
-        this(null);
+        this(new AppSyncContextResult());
     }
 
     public AppSyncContextPrev(AppSyncContextResult prevResult) {
-        this.result = prevResult;
+        this.prevMap = new HashMap<String, Object>();
+        prevMap.put("result", prevResult.getResultMap());
     }
 
-    public Map<String, Object> getResult() {
-        return result.getResultMap();
+    public Map<String, Object> getPrevMap() {
+        return this.prevMap;
     }
 }

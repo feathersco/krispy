@@ -35,7 +35,7 @@ public class AppSyncContext {
         return result.getResultMap();
     }
 
-    public AppSyncContextPrev getPrev() {
-        return prev;
+    public Map<String, Object> getPrev() {
+        return prev.getPrevMap();
     }
 }

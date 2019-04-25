@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import tech.feathers.krispy.Krispy;
-import tech.feathers.krispy.util.TimeProvider;
+import tech.feathers.krispy.util.FixedTimeProvider;
 
 import org.junit.BeforeClass;
 import org.junit.Before;
@@ -87,21 +87,6 @@ public class TimeUtilitiesTest {
             assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/epochMilliSecondsToFormatted.vtl"));
         } catch (Exception ex) {
             fail(ex.getMessage());
-        }
-    }
-
-    /**
-     * Time provider to use for testing purposes.
-     */
-    public class FixedTimeProvider implements TimeProvider {
-        private long fixedTimeMs;
-
-        public FixedTimeProvider(long fixedTimeMs) {
-            this.fixedTimeMs = fixedTimeMs;
-        }
-
-        public long nowMillis() {
-            return fixedTimeMs;
         }
     }
 }

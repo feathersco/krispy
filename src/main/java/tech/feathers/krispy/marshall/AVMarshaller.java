@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.ArgumentMarshaller;
-import com.amazonaws.services.dynamodbv2.datamodeling.ConversionSchemas;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.marshallers.*;
 
 public class AVMarshaller implements ArgumentMarshaller {
@@ -28,7 +30,7 @@ public class AVMarshaller implements ArgumentMarshaller {
             Map<String, Object> map = (Map<String, Object>) obj;
             return new MapToMapMarshaller(this).marshall(map);
         } else {
-            return new ObjectToMapMarshaller(ConversionSchemas.V2.getConverter(null)).marshall(obj);
+            throw new NotImplementedException("Object to AttributeValue marshalling is not yet supported.");
         }
     }
 }

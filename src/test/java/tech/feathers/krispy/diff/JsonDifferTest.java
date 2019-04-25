@@ -18,6 +18,7 @@ public class JsonDifferTest {
         Reader a = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }, \"b\": { \"e\": \"kinda\" }, \"c\": { \"f\": \"sorta\" }}");
         Reader b = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }, \"b\": { \"e\": \"kinda\" }, \"c\": { \"f\": \"sorta\" }}");
         JsonDiffer differ = new JsonDiffer();
+
         try {
             List<JsonDiff> diffs = differ.diff(a, b);
             assertNotNull(diffs);
@@ -32,6 +33,7 @@ public class JsonDifferTest {
         Reader a = new StringReader("{ \"a\": \"foo\", \"b\": \"bar\", \"c\": \"baz\" }");
         Reader b = new StringReader("{ \"a\": \"foo\", \"b\": \"qux\", \"d\": \"quux\" }");
         JsonDiffer differ = new JsonDiffer();
+
         try {
             List<JsonDiff> diffs = differ.diff(a, b);
             assertNotNull(diffs);
@@ -46,6 +48,7 @@ public class JsonDifferTest {
         Reader a = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"bar\"}}");
         Reader b = new StringReader("{\"a\": { \"a\": \"foo\", \"b\": \"qux\"}}");
         JsonDiffer differ = new JsonDiffer();
+
         try {
             List<JsonDiff> diffs = differ.diff(a, b);
             assertNotNull(diffs);

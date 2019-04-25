@@ -34,8 +34,14 @@ import tech.feathers.krispy.context.AppSyncContextResult;
 import tech.feathers.krispy.diff.AddedDiff;
 import tech.feathers.krispy.diff.JsonDiff;
 import tech.feathers.krispy.diff.JsonDiffer;
+import tech.feathers.krispy.util.BaseUtilities;
+import tech.feathers.krispy.util.FixedTimeProvider;
+import tech.feathers.krispy.util.TimeUtilities;
 
+// TODO: Allow expected errors
+// TODO: Allow validating stash
 public class KrispyMain {
+    public static final long FIXED_TIME_MILLIS = 1556050571231L;
 
     public static void main(String[] args) throws Exception {
         HelpFormatter formatter = new HelpFormatter();
@@ -81,7 +87,7 @@ public class KrispyMain {
         int updated = 0;
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        Krispy krispy = new Krispy();
+        Krispy krispy = new Krispy(new BaseUtilities(new TimeUtilities(new FixedTimeProvider(FIXED_TIME_MILLIS))));
         JsonDiffer differ = new JsonDiffer();
         for (File file: files) {
             try {
@@ -150,7 +156,7 @@ public class KrispyMain {
                 if (cl.hasOption("u")) {
                     System.out.println("\tAttempting to update snapshot...");
                     BufferedWriter bw = new BufferedWriter(new FileWriter(snapshot, false));
-                    BufferedReader br = new BufferedReader(actual);
+                    BufferedReader br = new BufferedReader(krispy.render(template.getPath(), context));
                     
                     String line;
                     while ((line = br.readLine()) != null) {

@@ -116,7 +116,7 @@ public class DynamoDBUtilities {
             } else {
                 result += ", ";
             }
-            result += "\"" + entry.getKey() + "\": " + avMarshaller.marshall(entry.getValue());
+            result += "\"" + entry.getKey() + "\": " + avJsonMarshaller.marshall(entry.getValue());
             
         }
         result += "}";
