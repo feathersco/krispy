@@ -1,6 +1,7 @@
 package tech.feathers.krispy.util;
 
 import java.util.Date;
+import java.util.TimeZone;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -55,6 +56,7 @@ public class TimeUtilities {
      */
     public String nowFormatted(String format) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date date = new Date(timeProvider.nowMillis());
         return sdf.format(date);
     }
@@ -71,6 +73,7 @@ public class TimeUtilities {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             Date dateTime = sdf.parse(timestamp);
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             return dateTime.getTime();
 
         } catch (ParseException pe) {
@@ -94,6 +97,7 @@ public class TimeUtilities {
      */
     public String epochMilliSecondsToFormatted(long epochMs, String format) { 
         SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date dateTime = new Date(epochMs);
         return sdf.format(dateTime);
     }

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import tech.feathers.krispy.Krispy;
 import tech.feathers.krispy.util.FixedTimeProvider;
@@ -42,6 +43,7 @@ public class TimeUtilitiesTest {
     @Test
     public void nowISO8601_called_fixedTime() {
         SimpleDateFormat sdf = new SimpleDateFormat(TimeUtilities.ISO8601_FORMAT);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         String timestamp = sdf.format(new Date(TEST_FIXED_TIME));
         try {
             assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/nowISO8601.vtl"));
@@ -71,6 +73,7 @@ public class TimeUtilitiesTest {
     @Test
     public void nowFormatted_called_fixedTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         String timestamp = sdf.format(new Date(TEST_FIXED_TIME));
         try {
             assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/nowFormatted.vtl"));
@@ -82,6 +85,7 @@ public class TimeUtilitiesTest {
     @Test
     public void epochMilliSecondsToFormatted_called_fixedTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         String timestamp = sdf.format(new Date(TEST_FIXED_TIME));
         try {
             assertEquals(timestamp, krispy.renderToString("src/test/resources/templates/util/time/epochMilliSecondsToFormatted.vtl"));
