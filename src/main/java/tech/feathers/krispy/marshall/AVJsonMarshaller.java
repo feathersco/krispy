@@ -34,7 +34,14 @@ public class AVJsonMarshaller {
     }
 
     private String marshallStringSet(AttributeValue av) {
-        return String.format("{\"SS\": %s}", av.getSS());
+        List<String> ss = av.getSS();
+        String result = "[";
+        for (int i = 0; i < ss.size(); i++) {
+            if (i > 0) { result += ","; }
+            result += "\"" + ss.get(i) + "\"";
+        }
+        result += "]";
+        return String.format("{\"SS\": %s}", result);
     }
 
     private String marshallBoolean(AttributeValue av) {

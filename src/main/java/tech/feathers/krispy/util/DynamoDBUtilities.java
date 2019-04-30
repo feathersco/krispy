@@ -43,7 +43,7 @@ public class DynamoDBUtilities {
     }
 
     public AttributeValue toStringSet(List<String> strSet) { 
-        return avMarshaller.marshall(strSet);
+        return new AttributeValue().withSS(strSet);
     }
 
     public String toStringSetJson(List<String> strSet) {
